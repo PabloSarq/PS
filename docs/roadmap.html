@@ -180,13 +180,13 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
           <div class="hd"><b>S8</b>14/12</div>
 
           <div class="phase">Fase 0 · Definición <small>1 semana</small></div>
-          <div class="lab" style="grid-row:span 1">Respuestas a las 7 preguntas y bocetos de pantallas</div>
+          <div class="lab" style="grid-row:span 1">Respuestas a las 7 preguntas, elegir máquina y dominio</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0">
             <div class="bar b-def" style="grid-column:1/2">reglas</div>
           </div>
 
           <div class="phase">Fase 1 · MVP <small>4 semanas + piloto</small></div>
-          <div class="lab">Login, roles y ABM de proyectos y miembros</div>
+          <div class="lab">Servidor local, login, roles y ABM de proyectos y miembros</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:2/3">base</div></div>
           <div class="lab">Tarifas con vigencia, horas contratadas, feriados</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:2/4">datos maestros</div></div>
@@ -207,7 +207,7 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:6/7">flujos</div></div>
           <div class="lab">Dashboard manager, presupuesto vs. real</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:6/8">indicadores</div></div>
-          <div class="lab">PDF mensual A4 y recordatorio de carga 18 h</div>
+          <div class="lab">PDF mensual A4, recordatorio 18 h, backup a Drive</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:7/9">salidas</div></div>
           <div class="lab"><b>Lanzamiento a todo el estudio</b></div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0">
@@ -228,7 +228,7 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
   <section class="lamina" id="arquitectura">
     <header>
       <span class="n">LÁMINA 02</span><h2>Arquitectura del sistema</h2>
-      <p>Una sola aplicación web que se usa desde la PC del estudio o el celular. Sin instalación ni app stores.</p>
+      <p>Beta en un servidor local dentro del estudio: costo cero y los datos quedan en una máquina propia. Se usa desde la PC del estudio o el celular, sin instalar nada.</p>
     </header>
     <div class="body">
       <div class="arch">
@@ -242,21 +242,20 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
         </div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="col">
-          <h3>App web</h3>
-          <div class="k">Next.js · Vercel</div>
+          <h3>Acceso</h3>
           <ul>
-            <li>Hoy<small>carga diaria por proyecto</small></li>
-            <li>Mi mes<small>calendario y totales</small></li>
-            <li>Administración<small>proyectos, miembros, tarifas, feriados</small></li>
-            <li>Aprobaciones e informes</li>
+            <li>En el estudio<small>red local, directo al servidor</small></li>
+            <li>Desde casa u obra<small>Cloudflare Tunnel, gratis, sin abrir puertos</small></li>
+            <li>Conexión cifrada<small>https con el dominio del estudio</small></li>
           </ul>
         </div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="col core">
-          <h3>Datos y reglas</h3>
-          <div class="k">Supabase · Postgres</div>
+          <h3>Servidor del estudio</h3>
+          <div class="k">PC o notebook propia · Docker</div>
           <ul>
-            <li>Login y roles<small>cada uno ve solo lo suyo</small></li>
+            <li>App web<small>Next.js · login y roles propios</small></li>
+            <li>Base de datos<small>PostgreSQL estándar, portable</small></li>
             <li>Fecha del servidor<small>zona America/Argentina/Tucuman</small></li>
             <li>Cierre automático 23:59<small>tarea programada diaria</small></li>
             <li>Auditoría<small>quién cambió qué y cuándo</small></li>
@@ -267,13 +266,14 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
           <h3>Salidas</h3>
           <ul>
             <li>Dashboard web</li>
-            <li>Excel<small>datos crudos y resumen</small></li>
-            <li>PDF A4 mensual<small>por proyecto</small></li>
+            <li>Excel y PDF A4<small>por proyecto y por mes</small></li>
             <li>Email 18 h<small>"no cargaste hoy"</small></li>
+            <li>Backup nocturno<small>cifrado, al Google Drive del estudio</small></li>
           </ul>
         </div>
       </div>
-      <p class="er-note mono">Costo estimado de infraestructura: USD 0 en plan gratuito · USD 25–45/mes si crece el uso.</p>
+      <p class="er-note mono">Costo de la beta: USD 0 (máquina existente + servicios gratuitos). Requiere un dominio; si el estudio ya tiene uno, no suma costo.</p>
+      <p class="er-note">Riesgos aceptados: un corte de luz o de internet en el estudio frena la carga mientras dure. El mantenimiento queda a cargo del estudio. Si la beta se consolida, se muda a la nube o a un equipo dedicado sin reprogramar.</p>
     </div>
   </section>
 
@@ -473,7 +473,8 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
             <tr><td>Ordinaria vs. extra</td><td>Automático por jornada diaria</td><td class="w">S2 · núcleo</td><td><span class="pill p-hi">alto</span></td></tr>
             <tr><td>¿Quién edita las horas contratadas?</td><td>Solo el manager</td><td class="w">S1 · permisos</td><td><span class="pill p-md">medio</span></td></tr>
             <tr><td>Aprobación de extras</td><td>Después de cargadas</td><td class="w">S5 · flujos</td><td><span class="pill p-md">medio</span></td></tr>
-            <tr><td>Cantidad de usuarios y externos</td><td>A informar</td><td class="w">S1 · hosting</td><td><span class="pill p-lo">bajo</span></td></tr>
+            <tr><td>Máquina servidor y dominio del estudio</td><td>PC/notebook existente + dominio propio</td><td class="w">S1 · instalación</td><td><span class="pill p-hi">alto</span></td></tr>
+            <tr><td>Cantidad de usuarios y externos</td><td>A informar</td><td class="w">S1 · permisos</td><td><span class="pill p-lo">bajo</span></td></tr>
           </tbody>
         </table>
       </div>

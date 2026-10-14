@@ -112,13 +112,26 @@ El **costo** de un registro se calcula al momento del informe: `horas × tarifa 
 
 ## 7. Propuesta técnica
 
-| Capa | Recomendación | Por qué |
+**Decisión (beta):** servidor local en el estudio, costo cero, datos bajo control propio. El sistema se arma **portable**: si más adelante conviene pasarlo a la nube, se mudan los datos sin reprogramar.
+
+| Capa | Elección | Por qué |
 |---|---|---|
-| Frontend | **Next.js** (web responsive, usable desde el celular) | Una sola app para PC y móvil, sin app stores. |
-| Backend + DB + Auth | **Supabase** (Postgres) | Login listo, permisos por fila (cada uno ve solo lo suyo), SQL real para informes. |
-| Hosting | Vercel + Supabase | Plan gratuito alcanza para un estudio chico; escala a ~USD 25–45/mes si crece. |
+| App | **Next.js** (web responsive, usable desde el celular) | Una sola app para PC y móvil, sin app stores. |
+| Base de datos | **PostgreSQL** estándar | Sin funciones atadas a un proveedor. SQL real para informes. |
+| Login y permisos | Dentro de la app (Auth.js), contraseñas cifradas | No depende de un servicio externo. |
+| Empaquetado | **Docker Compose** (app + base + backup) | Se instala con un comando en cualquier máquina. |
+| Máquina | Una PC o notebook que el estudio ya tenga, prendida 24/7 | Costo cero. Una notebook tiene batería propia: aguanta cortes cortos de luz. |
+| Acceso desde afuera | **Cloudflare Tunnel** (gratis) | Permite cargar extras desde casa u obra sin abrir puertos del router. Necesita un dominio: si el estudio ya tiene uno, costo cero. |
+| Backup | `pg_dump` automático cada noche, cifrado, a una carpeta del **Google Drive del estudio** + copia local | Si se roban o se rompe la máquina, los datos siguen a salvo. |
 | Informes | Vistas SQL + exportación XLSX/PDF | |
-| Recordatorios | Email (o WhatsApp más adelante) a las 18 h si no cargó el día | Sin esto, la regla de "solo hoy" genera huecos. |
+| Recordatorios | Email a las 18 h si no cargó el día (cuenta de Gmail del estudio) | Sin esto, la regla de "solo hoy" genera huecos. |
+
+**Riesgos aceptados para la beta:**
+- Corte de luz o de internet en el estudio = nadie carga mientras dure. Se compensa con pedidos de corrección.
+- El mantenimiento (actualizaciones, revisar que el backup ande) queda a cargo del estudio. Se deja un instructivo de una página.
+- La máquina no se usa para otra cosa ni se apaga a la noche.
+
+**Cuándo replantearlo:** si la beta funciona y el estudio entero depende del sistema, evaluar mudarlo a la nube (~USD 25/mes) o comprar un mini PC + UPS dedicados.
 
 **Alternativa descartada para el núcleo:** Google Sheets + AppSheet. Es más rápido de armar, pero la regla de "solo hoy", la aprobación de extras y las tarifas con vigencia quedan frágiles y fáciles de saltear.
 
