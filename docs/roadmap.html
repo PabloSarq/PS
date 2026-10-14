@@ -142,7 +142,7 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
     </div>
     <dl>
       <div><dt>Obra</dt><dd>Time Report</dd></div>
-      <div><dt>Versión</dt><dd>0.1 · borrador</dd></div>
+      <div><dt>Versión</dt><dd>0.2 · decisiones</dd></div>
       <div><dt>Fecha</dt><dd>14/10/2026</dd></div>
       <div><dt>Escala</dt><dd>1 col = 1 semana</dd></div>
       <div><dt>Inicio</dt><dd>19/10/2026</dd></div>
@@ -194,6 +194,8 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:3/5">núcleo</div></div>
           <div class="lab">"Mi mes": calendario y totales</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:4/5">vista</div></div>
+          <div class="lab">Carga de días pasados por el manager</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:4/5">olvidos</div></div>
           <div class="lab">Exportación a Excel</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:5/6">xlsx</div></div>
           <div class="lab">Piloto con 2–3 personas</div>
@@ -202,25 +204,23 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
             <div class="ms" style="grid-column:4/5;grid-row:1" title="Piloto"></div>
           </div>
 
-          <div class="phase">Fase 2 · Gestión <small>3 semanas</small></div>
-          <div class="lab">Aprobación de extras y correcciones</div>
-          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:6/7">flujos</div></div>
-          <div class="lab">Dashboard manager, presupuesto vs. real</div>
+          <div class="phase">Fase 2 · Gestión <small>2 semanas</small></div>
+          <div class="lab">Dashboard manager, alerta de extras, presupuesto vs. real</div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:6/8">indicadores</div></div>
           <div class="lab">PDF mensual A4, recordatorio 18 h, backup a Drive</div>
-          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:7/9">salidas</div></div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:7/8">salidas</div></div>
           <div class="lab"><b>Lanzamiento a todo el estudio</b></div>
           <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0">
-            <div class="ms" style="grid-column:8/9;grid-row:1"></div>
-            <div class="mslab" style="grid-column:9/10;grid-row:1">11/12</div>
+            <div class="ms" style="grid-column:7/8;grid-row:1"></div>
+            <div class="mslab" style="grid-column:8/9;grid-row:1">04/12</div>
           </div>
 
           <div class="phase">Fase 3 · Evolución <small>2027, según prioridades</small></div>
           <div class="lab">Fases de proyecto, horas/m², facturación</div>
-          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f3" style="grid-column:9/10">→ 2027</div></div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f3" style="grid-column:8/10">→ 2027</div></div>
         </div>
       </div>
-      <p class="er-note">Hitos: <b>Piloto</b> arranca el lunes 16/11 · <b>Lanzamiento</b> viernes 11/12, antes del receso de fin de año. Si el estudio tiene receso en enero, la Fase 3 empieza en febrero.</p>
+      <p class="er-note">Hitos: <b>Piloto</b> arranca el lunes 16/11 · <b>Lanzamiento</b> viernes 04/12, antes del receso de fin de año. Si el estudio tiene receso en enero, la Fase 3 empieza en febrero.</p>
     </div>
   </section>
 
@@ -337,8 +337,8 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
 
           <path class="ln" d="M880,206 V250" marker-end="url(#ah)"/>
           <rect class="n-ex" x="800" y="252" width="160" height="56"/>
-          <text x="880" y="277" text-anchor="middle" class="tb">Pendiente</text>
-          <text x="880" y="295" text-anchor="middle" class="tsm">aprueba el manager</text>
+          <text x="880" y="277" text-anchor="middle" class="tb">Sin aprobación</text>
+          <text x="880" y="295" text-anchor="middle" class="tsm">alerta si pasa el tope</text>
 
           <!-- cierre -->
           <path class="ln" d="M310,198 V250" marker-end="url(#ah)"/>
@@ -352,20 +352,20 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
           <text x="128" y="230" class="tsm">¿se olvidó</text>
           <text x="128" y="245" class="tsm">un día?</text>
           <rect class="n-lock" x="160" y="362" width="200" height="56"/>
-          <text x="260" y="387" text-anchor="middle" class="tb">Pedido de corrección</text>
-          <text x="260" y="405" text-anchor="middle" class="tsm">fecha + horas + motivo</text>
+          <text x="260" y="387" text-anchor="middle" class="tb">Avisa al manager</text>
+          <text x="260" y="405" text-anchor="middle" class="tsm">fuera del sistema</text>
 
           <path class="ln-d" d="M360,390 H438" marker-end="url(#ah)"/>
           <rect class="n-box" x="440" y="362" width="200" height="56"/>
-          <text x="540" y="387" text-anchor="middle" class="tb">Manager revisa</text>
-          <text x="540" y="405" text-anchor="middle" class="tsm">aprueba / rechaza</text>
+          <text x="540" y="387" text-anchor="middle" class="tb">Manager carga el día</text>
+          <text x="540" y="405" text-anchor="middle" class="tsm">en nombre del profesional</text>
 
           <path class="ln-d" d="M640,390 H718" marker-end="url(#ah)"/>
           <rect class="n-ok" x="720" y="362" width="230" height="56"/>
-          <text x="835" y="387" text-anchor="middle" class="tb">Se carga con marca</text>
+          <text x="835" y="387" text-anchor="middle" class="tb">"Cargado por manager"</text>
           <text x="835" y="405" text-anchor="middle" class="tsm">queda en auditoría</text>
 
-          <text x="10" y="458" class="tsm">Línea punteada = excepción. Se mide: cantidad de correcciones por persona y por mes.</text>
+          <text x="10" y="458" class="tsm">Línea punteada = excepción. Se mide: días cargados por el manager, por persona y por mes.</text>
         </svg>
       </div>
     </div>
@@ -375,18 +375,17 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
   <section class="lamina" id="datos">
     <header>
       <span class="n">LÁMINA 04</span><h2>Modelo de datos</h2>
-      <p>Diez tablas. El centro es <span class="mono">registros_horas</span>: una fila por persona, día, proyecto y tipo de hora.</p>
+      <p>Nueve tablas. El centro es <span class="mono">registros_horas</span>: una fila por persona, día, proyecto y tipo de hora.</p>
     </header>
     <div class="body">
       <div class="er">
         <div class="stack">
-          <div class="ent"><h3>miembros</h3><ul><li><b>id</b></li><li>nombre, email</li><li>rol</li><li>jornada_diaria</li><li>activo</li></ul></div>
+          <div class="ent"><h3>miembros</h3><ul><li><b>id</b></li><li>nombre, email</li><li>rol</li><li>jornada_diaria</li><li>tope_extras_mes</li><li>activo</li></ul></div>
           <div class="ent"><h3>contrato_mensual</h3><ul><li><b>miembro_id</b> → miembros</li><li><b>año_mes</b></li><li>horas_contratadas</li></ul></div>
-          <div class="ent"><h3>tarifas</h3><ul><li><b>miembro_id</b> → miembros</li><li>tipo: ordinaria · extra50 · extra100</li><li>valor_hora</li><li>vigente_desde / hasta</li></ul></div>
+          <div class="ent"><h3>tarifas</h3><ul><li><b>miembro_id</b> → miembros</li><li>tipo: ordinaria · extra50 · extra100</li><li>costo_hora (costo estudio)</li><li>vigente_desde / hasta</li></ul></div>
         </div>
         <div class="stack">
-          <div class="ent core"><h3>registros_horas</h3><ul><li><b>id</b></li><li><b>miembro_id</b> → miembros</li><li><b>proyecto_id</b> → proyectos</li><li>fase_id → fases</li><li>fecha · horas</li><li>tipo: ordinaria · extra50 · extra100</li><li>estado: ok · pendiente · aprobado · rechazado</li><li>nota</li></ul></div>
-          <div class="ent"><h3>correcciones</h3><ul><li><b>miembro_id</b> → miembros</li><li>fecha_objetivo, detalle</li><li>estado, resuelto_por</li></ul></div>
+          <div class="ent core"><h3>registros_horas</h3><ul><li><b>id</b></li><li><b>miembro_id</b> → miembros</li><li><b>proyecto_id</b> → proyectos</li><li>fase_id → fases</li><li>fecha · horas</li><li>tipo: ordinaria · extra50 · extra100</li><li>cargado_por → miembros</li><li>nota</li></ul></div>
           <div class="ent"><h3>auditoria</h3><ul><li>quién, qué, cuándo</li><li>valor_anterior → valor_nuevo</li></ul></div>
         </div>
         <div class="stack">
@@ -422,21 +421,22 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
             <li>Carga de proyectos, miembros, tarifas y feriados</li>
             <li>Carga del día con cálculo ordinaria / extra</li>
             <li>Cierre automático 23:59</li>
+            <li>Carga de días pasados por el manager</li>
             <li>Vista "Mi mes"</li>
             <li>Exportación Excel</li>
           </ul>
           <p class="out"><b>Al cierre</b>El piloto carga horas reales y podés bajar un Excel con horas por proyecto y por persona.</p>
         </div>
         <div class="stage f2">
-          <span class="when">S5 – S7 · 23/11 → 11/12</span>
+          <span class="when">S5 – S6 · 23/11 → 04/12</span>
           <h3>Gestión</h3>
           <ul>
-            <li>Aprobación de extras</li>
-            <li>Pedidos de corrección</li>
+            <li>Alerta de extras sobre tope mensual</li>
             <li>Dashboard: utilización, ranking de proyectos, extras del mes</li>
             <li>Presupuesto vs. real con alertas 80 / 100 %</li>
             <li>PDF A4 mensual por proyecto</li>
             <li>Recordatorio por email a las 18 h</li>
+            <li>Backup nocturno al Drive</li>
           </ul>
           <p class="out"><b>Al cierre</b>Todo el estudio usa el sistema y el manager cierra el mes desde el dashboard.</p>
         </div>
@@ -459,27 +459,30 @@ td.w{font-family:var(--f-mono);white-space:nowrap}
   <!-- 06 Decisiones -->
   <section class="lamina" id="decisiones">
     <header>
-      <span class="n">LÁMINA 06</span><h2>Decisiones que frenan el cronograma</h2>
-      <p>Hay que responderlas en la semana S0. Cada una bloquea una parte concreta del desarrollo.</p>
+      <span class="n">LÁMINA 06</span><h2>Decisiones</h2>
+      <p>Siete resueltas el 14/10. Quedan cuatro abiertas, que hay que cerrar antes del lunes 26/10.</p>
     </header>
     <div class="body">
       <div class="scroll">
         <table>
-          <thead><tr><th>Decisión</th><th>Propuesta</th><th>Bloquea</th><th>Impacto</th></tr></thead>
+          <thead><tr><th>Tema</th><th>Decisión</th><th>Afecta</th><th>Estado</th></tr></thead>
           <tbody>
-            <tr><td>¿Fases de proyecto desde el MVP?</td><td>Sí, opcionales por proyecto</td><td class="w">S1 · modelo</td><td><span class="pill p-hi">alto</span></td></tr>
-            <tr><td>Tarifa: ¿costo para el estudio o precio de venta?</td><td>Ambas, para ver margen</td><td class="w">S1 · tarifas</td><td><span class="pill p-hi">alto</span></td></tr>
-            <tr><td>Cierre del día</td><td>23:59 + corrección aprobada</td><td class="w">S2 · núcleo</td><td><span class="pill p-hi">alto</span></td></tr>
-            <tr><td>Ordinaria vs. extra</td><td>Automático por jornada diaria</td><td class="w">S2 · núcleo</td><td><span class="pill p-hi">alto</span></td></tr>
-            <tr><td>¿Quién edita las horas contratadas?</td><td>Solo el manager</td><td class="w">S1 · permisos</td><td><span class="pill p-md">medio</span></td></tr>
-            <tr><td>Aprobación de extras</td><td>Después de cargadas</td><td class="w">S5 · flujos</td><td><span class="pill p-md">medio</span></td></tr>
-            <tr><td>Máquina servidor y dominio del estudio</td><td>PC/notebook existente + dominio propio</td><td class="w">S1 · instalación</td><td><span class="pill p-hi">alto</span></td></tr>
-            <tr><td>Cantidad de usuarios y externos</td><td>A informar</td><td class="w">S1 · permisos</td><td><span class="pill p-lo">bajo</span></td></tr>
+            <tr><td>Extra por cantidad o por horario</td><td>Propuesta: por cantidad (lo que pase de la jornada en el día)</td><td class="w">S2 · núcleo</td><td><span class="pill p-hi">abierta</span></td></tr>
+            <tr><td>Fases de proyecto en el MVP</td><td>Propuesta: sí, opcionales por proyecto</td><td class="w">S1 · modelo</td><td><span class="pill p-hi">abierta</span></td></tr>
+            <tr><td>Dominio del estudio</td><td>A informar</td><td class="w">S1 · acceso externo</td><td><span class="pill p-hi">abierta</span></td></tr>
+            <tr><td>PC servidor</td><td>A informar: marca, modelo, RAM</td><td class="w">S1 · instalación</td><td><span class="pill p-hi">abierta</span></td></tr>
+            <tr><td>Tarifa</td><td>Solo costo para el estudio</td><td class="w">S1 · tarifas</td><td><span class="pill p-lo">resuelta</span></td></tr>
+            <tr><td>Cierre del día</td><td>23:59; si alguien se olvidó, carga el manager</td><td class="w">S2 · núcleo</td><td><span class="pill p-lo">resuelta</span></td></tr>
+            <tr><td>Ordinaria vs. extra</td><td>Automático: lo que excede la jornada es extra</td><td class="w">S2 · núcleo</td><td><span class="pill p-lo">resuelta</span></td></tr>
+            <tr><td>Horas contratadas</td><td>Solo las edita el manager</td><td class="w">S1 · permisos</td><td><span class="pill p-lo">resuelta</span></td></tr>
+            <tr><td>Aprobación de extras</td><td>No hace falta; alerta si se pasa un tope</td><td class="w">S5 · dashboard</td><td><span class="pill p-lo">resuelta</span></td></tr>
+            <tr><td>Servidor</td><td>Local, en una PC de la oficina</td><td class="w">S1 · instalación</td><td><span class="pill p-lo">resuelta</span></td></tr>
+            <tr><td>Usuarios</td><td>Hasta 30</td><td class="w">S1 · permisos</td><td><span class="pill p-lo">resuelta</span></td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <p class="foot">Time Report · Roadmap v0.1 · 14/10/2026</p>
+  <p class="foot">Time Report · Roadmap v0.2 · 14/10/2026</p>
 </div>
