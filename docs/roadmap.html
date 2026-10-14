@@ -1,0 +1,484 @@
+<title>Roadmap Time Report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: juego de láminas de un plano — rótulo arriba, cada sección es una lámina numerada sobre fondo hormigón */
+:root{
+  --bg:#eceeed; --paper:#fafbfa; --ink:#1c2220; --muted:#5d6864; --line:#cdd3d0; --grid:#e3e7e5;
+  --accent:#2c6a4d; --accent-soft:#dcebe3; --wood:#a8672f; --wood-soft:#f2e3d4; --warn:#a33b2b; --warn-soft:#f5dfdb;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121615; --paper:#1a1f1e; --ink:#e4e9e6; --muted:#9aa5a1; --line:#2e3634; --grid:#232a28;
+  --accent:#6cbf93; --accent-soft:#1f3a2d; --wood:#dc9d60; --wood-soft:#3a2a1c; --warn:#e88a7a; --warn-soft:#3d221d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121615; --paper:#1a1f1e; --ink:#e4e9e6; --muted:#9aa5a1; --line:#2e3634; --grid:#232a28;
+  --accent:#6cbf93; --accent-soft:#1f3a2d; --wood:#dc9d60; --wood-soft:#3a2a1c; --warn:#e88a7a; --warn-soft:#3d221d; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:.01em}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* Rótulo */
+.rotulo{display:grid;grid-template-columns:1fr auto;border:1.5px solid var(--ink);background:var(--paper)}
+.rotulo .t{padding:20px 22px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rotulo h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:700;line-height:1}
+.rotulo .t p{color:var(--muted);max-width:60ch}
+.rotulo dl{display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));margin:0;border-left:1.5px solid var(--ink)}
+.rotulo dl div{padding:10px 14px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.rotulo dl div:nth-child(2n){border-right:0}
+.rotulo dl div:nth-last-child(-n+2){border-bottom:0}
+.rotulo dt{font-size:.68rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.rotulo dd{margin:0;font-family:var(--f-mono);font-size:.9rem}
+@media (max-width:720px){.rotulo{grid-template-columns:1fr}.rotulo dl{border-left:0;border-top:1.5px solid var(--ink)}}
+
+/* Lámina */
+.lamina{background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column}
+.lamina>header{display:flex;align-items:baseline;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.lamina>header .n{font-family:var(--f-mono);font-size:.78rem;color:var(--accent);letter-spacing:.06em}
+.lamina>header h2{font-size:1.65rem;font-weight:600}
+.lamina>header p{color:var(--muted);font-size:.95rem;flex-basis:100%}
+.body{padding:20px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.85rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:10px;display:inline-block;border:1px solid transparent}
+
+/* Gantt */
+.gantt{min-width:820px;display:grid;grid-template-columns:250px repeat(9,1fr);font-size:.88rem}
+.gantt .hd{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);padding:6px 6px 8px;border-left:1px solid var(--grid);line-height:1.3}
+.gantt .hd b{display:block;color:var(--ink);font-weight:500;font-size:.8rem}
+.gantt .hd.hol b::after{content:" ·F";color:var(--warn)}
+.gantt .lab{padding:7px 10px 7px 0;border-top:1px solid var(--grid);grid-column:1}
+.gantt .phase{grid-column:1/-1;padding:14px 0 6px;font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:.03em;text-transform:uppercase;border-top:1.5px solid var(--ink);display:flex;gap:10px;align-items:baseline}
+.gantt .phase small{font-family:var(--f-body);text-transform:none;font-weight:400;color:var(--muted);font-size:.85rem;letter-spacing:0}
+.gantt .cell{border-top:1px solid var(--grid);background-image:repeating-linear-gradient(to right,var(--grid) 0 1px,transparent 1px calc(100% / 9))}
+.gantt .bar{align-self:center;height:20px;margin:7px 3px;border-radius:2px;position:relative;z-index:1;display:flex;align-items:center;padding:0 8px;font-family:var(--f-mono);font-size:.7rem;white-space:nowrap;overflow:hidden}
+.b-def{background:var(--line);color:var(--ink)}
+.b-mvp{background:var(--accent);color:var(--paper)}
+.b-f2{background:var(--wood);color:var(--paper)}
+.b-pil{background:repeating-linear-gradient(135deg,var(--accent-soft) 0 6px,transparent 6px 12px);border:1.5px solid var(--accent);color:var(--ink)}
+.b-f3{background:transparent;border:1.5px dashed var(--muted);color:var(--muted)}
+.ms{align-self:center;justify-self:end;margin-right:-8px;width:14px;height:14px;transform:rotate(45deg);background:var(--ink);z-index:2}
+.mslab{font-family:var(--f-mono);font-size:.7rem;align-self:center;padding-left:14px;color:var(--ink);white-space:nowrap;z-index:2}
+
+/* Arquitectura */
+.arch{display:grid;grid-template-columns:1fr 28px 1.25fr 28px 1.25fr 28px 1fr;align-items:stretch}
+.col{border:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.col>h3{font-size:1.05rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:8px 12px;border-bottom:1px solid var(--line)}
+.col>.k{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);padding:6px 12px 0}
+.col ul{list-style:none;margin:0;padding:8px 12px 12px;display:flex;flex-direction:column;gap:6px}
+.col li{padding:7px 10px;background:var(--bg);font-size:.9rem;line-height:1.3}
+.col li small{display:block;color:var(--muted);font-size:.78rem}
+.col.core{border:1.5px solid var(--accent)}
+.col.core>h3{background:var(--accent-soft)}
+.arrow{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1.2rem}
+@media (max-width:860px){.arch{grid-template-columns:1fr}.arrow{height:26px;transform:rotate(90deg)}}
+
+/* Flujo */
+.flow svg{display:block;width:100%;min-width:720px;height:auto}
+.flow .n-box{fill:var(--paper);stroke:var(--ink);stroke-width:1.3}
+.flow .n-ok{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.flow .n-ex{fill:var(--wood-soft);stroke:var(--wood);stroke-width:1.5}
+.flow .n-lock{fill:var(--warn-soft);stroke:var(--warn);stroke-width:1.5}
+.flow .n-dec{fill:var(--paper);stroke:var(--ink);stroke-width:1.3}
+.flow .ln{stroke:var(--muted);stroke-width:1.4;fill:none}
+.flow .ln-d{stroke:var(--muted);stroke-width:1.4;fill:none;stroke-dasharray:5 4}
+.flow text{fill:var(--ink);font-family:var(--f-body);font-size:13px}
+.flow .tsm{fill:var(--muted);font-size:11px;font-family:var(--f-mono)}
+.flow .tb{font-weight:700}
+.flow .ah{fill:var(--muted)}
+
+/* Modelo de datos */
+.er{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.er .stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.ent{border:1px solid var(--line);background:var(--paper);min-width:0}
+.ent h3{font-family:var(--f-mono);font-size:.85rem;font-weight:500;padding:7px 10px;border-bottom:1px solid var(--line);background:var(--bg);letter-spacing:0}
+.ent ul{list-style:none;margin:0;padding:6px 10px 8px;font-family:var(--f-mono);font-size:.75rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.ent li b{color:var(--ink);font-weight:500}
+.ent.core{border:1.5px solid var(--accent)}
+.ent.core h3{background:var(--accent);color:var(--paper)}
+.er-note{font-size:.78rem;color:var(--muted);padding:0 2px}
+.rels{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px 20px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.rels b{color:var(--ink);font-weight:500}
+@media (max-width:820px){.er{grid-template-columns:1fr}}
+
+/* Entregables */
+.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.stage{border-top:4px solid var(--accent);background:var(--bg);padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.stage.f2{border-top-color:var(--wood)}
+.stage.f3{border-top:4px dashed var(--muted)}
+.stage h3{font-size:1.35rem;font-weight:600}
+.stage .when{font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+.stage ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+.stage .out{font-size:.88rem;border-top:1px solid var(--line);padding-top:10px}
+.stage .out b{display:block;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+@media (max-width:820px){.stages{grid-template-columns:1fr}}
+
+/* Decisiones */
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.9rem}
+th{text-align:left;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1.5px solid var(--ink)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.w{font-family:var(--f-mono);white-space:nowrap}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:.72rem;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.p-hi{background:var(--warn-soft);color:var(--warn)}
+.p-md{background:var(--wood-soft);color:var(--wood)}
+.p-lo{background:var(--accent-soft);color:var(--accent)}
+.foot{font-size:.8rem;color:var(--muted);text-align:right;font-family:var(--f-mono)}
+</style>
+
+<div class="wrap">
+
+  <section class="rotulo" aria-label="Rótulo">
+    <div class="t">
+      <h1>Time Report · Roadmap</h1>
+      <p>Sistema de registro diario de horas profesionales por proyecto, con horas ordinarias, extras, tarifas por miembro e indicadores de producción.</p>
+    </div>
+    <dl>
+      <div><dt>Obra</dt><dd>Time Report</dd></div>
+      <div><dt>Versión</dt><dd>0.1 · borrador</dd></div>
+      <div><dt>Fecha</dt><dd>14/10/2026</dd></div>
+      <div><dt>Escala</dt><dd>1 col = 1 semana</dd></div>
+      <div><dt>Inicio</dt><dd>19/10/2026</dd></div>
+      <div><dt>Láminas</dt><dd>01 – 06</dd></div>
+    </dl>
+  </section>
+
+  <!-- 01 Cronograma -->
+  <section class="lamina" id="cronograma">
+    <header>
+      <span class="n">LÁMINA 01</span><h2>Cronograma</h2>
+      <p>Fechas estimadas con inicio el lunes 19/10. Si las definiciones de la lámina 06 se demoran, todo corre igual cantidad de semanas.</p>
+    </header>
+    <div class="body">
+      <div class="legend">
+        <span><i class="sw b-def"></i>Definición</span>
+        <span><i class="sw b-mvp"></i>MVP</span>
+        <span><i class="sw b-pil"></i>Piloto</span>
+        <span><i class="sw b-f2"></i>Fase 2</span>
+        <span><i class="sw b-f3"></i>Fase 3 (a definir)</span>
+        <span><i class="sw" style="background:var(--ink);transform:rotate(45deg);width:9px;height:9px"></i>Hito</span>
+        <span class="mono" style="color:var(--warn)">·F</span><span>semana con feriado</span>
+      </div>
+      <div class="scroll">
+        <div class="gantt" role="table" aria-label="Cronograma por semanas">
+          <div></div>
+          <div class="hd"><b>S0</b>19/10</div>
+          <div class="hd"><b>S1</b>26/10</div>
+          <div class="hd"><b>S2</b>02/11</div>
+          <div class="hd"><b>S3</b>09/11</div>
+          <div class="hd hol"><b>S4</b>16/11</div>
+          <div class="hd"><b>S5</b>23/11</div>
+          <div class="hd"><b>S6</b>30/11</div>
+          <div class="hd hol"><b>S7</b>07/12</div>
+          <div class="hd"><b>S8</b>14/12</div>
+
+          <div class="phase">Fase 0 · Definición <small>1 semana</small></div>
+          <div class="lab" style="grid-row:span 1">Respuestas a las 7 preguntas y bocetos de pantallas</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0">
+            <div class="bar b-def" style="grid-column:1/2">reglas</div>
+          </div>
+
+          <div class="phase">Fase 1 · MVP <small>4 semanas + piloto</small></div>
+          <div class="lab">Login, roles y ABM de proyectos y miembros</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:2/3">base</div></div>
+          <div class="lab">Tarifas con vigencia, horas contratadas, feriados</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:2/4">datos maestros</div></div>
+          <div class="lab">Carga del día, regla ordinaria / extra, cierre 23:59</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:3/5">núcleo</div></div>
+          <div class="lab">"Mi mes": calendario y totales</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:4/5">vista</div></div>
+          <div class="lab">Exportación a Excel</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-mvp" style="grid-column:5/6">xlsx</div></div>
+          <div class="lab">Piloto con 2–3 personas</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0">
+            <div class="bar b-pil" style="grid-column:5/7">uso real + ajustes</div>
+            <div class="ms" style="grid-column:4/5;grid-row:1" title="Piloto"></div>
+          </div>
+
+          <div class="phase">Fase 2 · Gestión <small>3 semanas</small></div>
+          <div class="lab">Aprobación de extras y correcciones</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:6/7">flujos</div></div>
+          <div class="lab">Dashboard manager, presupuesto vs. real</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:6/8">indicadores</div></div>
+          <div class="lab">PDF mensual A4 y recordatorio de carga 18 h</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f2" style="grid-column:7/9">salidas</div></div>
+          <div class="lab"><b>Lanzamiento a todo el estudio</b></div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0">
+            <div class="ms" style="grid-column:8/9;grid-row:1"></div>
+            <div class="mslab" style="grid-column:9/10;grid-row:1">11/12</div>
+          </div>
+
+          <div class="phase">Fase 3 · Evolución <small>2027, según prioridades</small></div>
+          <div class="lab">Fases de proyecto, horas/m², facturación</div>
+          <div class="cell" style="grid-column:2/-1;display:grid;grid-template-columns:repeat(9,1fr);border-left:0"><div class="bar b-f3" style="grid-column:9/10">→ 2027</div></div>
+        </div>
+      </div>
+      <p class="er-note">Hitos: <b>Piloto</b> arranca el lunes 16/11 · <b>Lanzamiento</b> viernes 11/12, antes del receso de fin de año. Si el estudio tiene receso en enero, la Fase 3 empieza en febrero.</p>
+    </div>
+  </section>
+
+  <!-- 02 Arquitectura -->
+  <section class="lamina" id="arquitectura">
+    <header>
+      <span class="n">LÁMINA 02</span><h2>Arquitectura del sistema</h2>
+      <p>Una sola aplicación web que se usa desde la PC del estudio o el celular. Sin instalación ni app stores.</p>
+    </header>
+    <div class="body">
+      <div class="arch">
+        <div class="col">
+          <h3>Usuarios</h3>
+          <ul>
+            <li>Profesional<small>carga el día, ve su mes</small></li>
+            <li>Manager<small>datos maestros, aprobaciones, informes</small></li>
+            <li>Socio / lectura<small>solo informes</small></li>
+          </ul>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="col">
+          <h3>App web</h3>
+          <div class="k">Next.js · Vercel</div>
+          <ul>
+            <li>Hoy<small>carga diaria por proyecto</small></li>
+            <li>Mi mes<small>calendario y totales</small></li>
+            <li>Administración<small>proyectos, miembros, tarifas, feriados</small></li>
+            <li>Aprobaciones e informes</li>
+          </ul>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="col core">
+          <h3>Datos y reglas</h3>
+          <div class="k">Supabase · Postgres</div>
+          <ul>
+            <li>Login y roles<small>cada uno ve solo lo suyo</small></li>
+            <li>Fecha del servidor<small>zona America/Argentina/Tucuman</small></li>
+            <li>Cierre automático 23:59<small>tarea programada diaria</small></li>
+            <li>Auditoría<small>quién cambió qué y cuándo</small></li>
+          </ul>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="col">
+          <h3>Salidas</h3>
+          <ul>
+            <li>Dashboard web</li>
+            <li>Excel<small>datos crudos y resumen</small></li>
+            <li>PDF A4 mensual<small>por proyecto</small></li>
+            <li>Email 18 h<small>"no cargaste hoy"</small></li>
+          </ul>
+        </div>
+      </div>
+      <p class="er-note mono">Costo estimado de infraestructura: USD 0 en plan gratuito · USD 25–45/mes si crece el uso.</p>
+    </div>
+  </section>
+
+  <!-- 03 Flujo -->
+  <section class="lamina" id="flujo">
+    <header>
+      <span class="n">LÁMINA 03</span><h2>Flujo de carga diaria</h2>
+      <p>Lo que pasa cada vez que un profesional carga horas, y cómo se resuelve un día olvidado.</p>
+    </header>
+    <div class="body">
+      <div class="legend">
+        <span><i class="sw" style="background:var(--accent-soft);border-color:var(--accent)"></i>Hora ordinaria</span>
+        <span><i class="sw" style="background:var(--wood-soft);border-color:var(--wood)"></i>Hora extra</span>
+        <span><i class="sw" style="background:var(--warn-soft);border-color:var(--warn)"></i>Bloqueo / excepción</span>
+      </div>
+      <div class="scroll flow">
+        <svg viewBox="0 0 970 470" role="img" aria-label="Diagrama de flujo de la carga diaria de horas">
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+
+          <!-- fila principal -->
+          <rect class="n-box" x="10" y="30" width="130" height="56"/>
+          <text x="75" y="55" text-anchor="middle" class="tb">Login</text>
+          <text x="75" y="73" text-anchor="middle" class="tsm">email / Google</text>
+
+          <rect class="n-box" x="180" y="30" width="150" height="56"/>
+          <text x="255" y="55" text-anchor="middle" class="tb">Pantalla "Hoy"</text>
+          <text x="255" y="73" text-anchor="middle" class="tsm">fecha = servidor</text>
+
+          <rect class="n-box" x="370" y="30" width="160" height="56"/>
+          <text x="450" y="55" text-anchor="middle" class="tb">Elegir proyecto</text>
+          <text x="450" y="73" text-anchor="middle" class="tsm">solo los asignados</text>
+
+          <rect class="n-box" x="570" y="30" width="160" height="56"/>
+          <text x="650" y="55" text-anchor="middle" class="tb">Cargar horas</text>
+          <text x="650" y="73" text-anchor="middle" class="tsm">bloques 0,5 h + nota</text>
+
+          <path class="ln" d="M140,58 H178" marker-end="url(#ah)"/>
+          <path class="ln" d="M330,58 H368" marker-end="url(#ah)"/>
+          <path class="ln" d="M530,58 H568" marker-end="url(#ah)"/>
+
+          <!-- decisión -->
+          <polygon class="n-dec" points="650,120 760,170 650,220 540,170"/>
+          <text x="650" y="164" text-anchor="middle" class="tb">¿Supera la jornada</text>
+          <text x="650" y="182" text-anchor="middle" class="tb">o es finde / feriado?</text>
+          <path class="ln" d="M650,86 V118" marker-end="url(#ah)"/>
+
+          <!-- no: ordinaria -->
+          <path class="ln" d="M540,170 H392" marker-end="url(#ah)"/>
+          <text x="470" y="162" text-anchor="middle" class="tsm">NO</text>
+          <rect class="n-ok" x="230" y="142" width="160" height="56"/>
+          <text x="310" y="167" text-anchor="middle" class="tb">Hora ordinaria</text>
+          <text x="310" y="185" text-anchor="middle" class="tsm">queda registrada</text>
+
+          <!-- sí: extra -->
+          <path class="ln" d="M760,170 H808" marker-end="url(#ah)"/>
+          <text x="784" y="162" text-anchor="middle" class="tsm">SÍ</text>
+          <rect class="n-ex" x="810" y="134" width="140" height="72"/>
+          <text x="880" y="160" text-anchor="middle" class="tb">Hora extra</text>
+          <text x="880" y="178" text-anchor="middle" class="tsm">50 % hábil</text>
+          <text x="880" y="193" text-anchor="middle" class="tsm">100 % finde/feriado</text>
+
+          <path class="ln" d="M880,206 V250" marker-end="url(#ah)"/>
+          <rect class="n-ex" x="800" y="252" width="160" height="56"/>
+          <text x="880" y="277" text-anchor="middle" class="tb">Pendiente</text>
+          <text x="880" y="295" text-anchor="middle" class="tsm">aprueba el manager</text>
+
+          <!-- cierre -->
+          <path class="ln" d="M310,198 V250" marker-end="url(#ah)"/>
+          <path class="ln" d="M800,280 H560" marker-end="url(#ah)"/>
+          <rect class="n-lock" x="230" y="252" width="330" height="56"/>
+          <text x="395" y="277" text-anchor="middle" class="tb">23:59 · el día se cierra solo</text>
+          <text x="395" y="295" text-anchor="middle" class="tsm">no se edita más · entra a informes</text>
+
+          <!-- excepción -->
+          <path class="ln-d" d="M120,86 V390 H158" marker-end="url(#ah)"/>
+          <text x="128" y="230" class="tsm">¿se olvidó</text>
+          <text x="128" y="245" class="tsm">un día?</text>
+          <rect class="n-lock" x="160" y="362" width="200" height="56"/>
+          <text x="260" y="387" text-anchor="middle" class="tb">Pedido de corrección</text>
+          <text x="260" y="405" text-anchor="middle" class="tsm">fecha + horas + motivo</text>
+
+          <path class="ln-d" d="M360,390 H438" marker-end="url(#ah)"/>
+          <rect class="n-box" x="440" y="362" width="200" height="56"/>
+          <text x="540" y="387" text-anchor="middle" class="tb">Manager revisa</text>
+          <text x="540" y="405" text-anchor="middle" class="tsm">aprueba / rechaza</text>
+
+          <path class="ln-d" d="M640,390 H718" marker-end="url(#ah)"/>
+          <rect class="n-ok" x="720" y="362" width="230" height="56"/>
+          <text x="835" y="387" text-anchor="middle" class="tb">Se carga con marca</text>
+          <text x="835" y="405" text-anchor="middle" class="tsm">queda en auditoría</text>
+
+          <text x="10" y="458" class="tsm">Línea punteada = excepción. Se mide: cantidad de correcciones por persona y por mes.</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Modelo de datos -->
+  <section class="lamina" id="datos">
+    <header>
+      <span class="n">LÁMINA 04</span><h2>Modelo de datos</h2>
+      <p>Diez tablas. El centro es <span class="mono">registros_horas</span>: una fila por persona, día, proyecto y tipo de hora.</p>
+    </header>
+    <div class="body">
+      <div class="er">
+        <div class="stack">
+          <div class="ent"><h3>miembros</h3><ul><li><b>id</b></li><li>nombre, email</li><li>rol</li><li>jornada_diaria</li><li>activo</li></ul></div>
+          <div class="ent"><h3>contrato_mensual</h3><ul><li><b>miembro_id</b> → miembros</li><li><b>año_mes</b></li><li>horas_contratadas</li></ul></div>
+          <div class="ent"><h3>tarifas</h3><ul><li><b>miembro_id</b> → miembros</li><li>tipo: ordinaria · extra50 · extra100</li><li>valor_hora</li><li>vigente_desde / hasta</li></ul></div>
+        </div>
+        <div class="stack">
+          <div class="ent core"><h3>registros_horas</h3><ul><li><b>id</b></li><li><b>miembro_id</b> → miembros</li><li><b>proyecto_id</b> → proyectos</li><li>fase_id → fases</li><li>fecha · horas</li><li>tipo: ordinaria · extra50 · extra100</li><li>estado: ok · pendiente · aprobado · rechazado</li><li>nota</li></ul></div>
+          <div class="ent"><h3>correcciones</h3><ul><li><b>miembro_id</b> → miembros</li><li>fecha_objetivo, detalle</li><li>estado, resuelto_por</li></ul></div>
+          <div class="ent"><h3>auditoria</h3><ul><li>quién, qué, cuándo</li><li>valor_anterior → valor_nuevo</li></ul></div>
+        </div>
+        <div class="stack">
+          <div class="ent"><h3>proyectos</h3><ul><li><b>id</b>, código</li><li>nombre, cliente</li><li>estado</li><li>horas_presupuestadas</li><li>interno (sí/no)</li></ul></div>
+          <div class="ent"><h3>fases</h3><ul><li><b>proyecto_id</b> → proyectos</li><li>nombre</li></ul></div>
+          <div class="ent"><h3>asignaciones</h3><ul><li><b>proyecto_id</b> → proyectos</li><li><b>miembro_id</b> → miembros</li></ul></div>
+          <div class="ent"><h3>feriados</h3><ul><li><b>fecha</b></li><li>descripción</li><li>ámbito: nacional · provincial · estudio</li></ul></div>
+        </div>
+      </div>
+      <div class="rels">
+        <span><b>miembros 1 — N</b> registros_horas</span>
+        <span><b>proyectos 1 — N</b> registros_horas</span>
+        <span><b>miembros N — N</b> proyectos (asignaciones)</span>
+        <span><b>miembros 1 — N</b> tarifas (por vigencia)</span>
+      </div>
+      <p class="er-note">Costo de un registro = horas × tarifa vigente en esa fecha para ese tipo. Se calcula al armar el informe, así cambiar una tarifa nueva no altera meses cerrados.</p>
+    </div>
+  </section>
+
+  <!-- 05 Entregables -->
+  <section class="lamina" id="entregables">
+    <header>
+      <span class="n">LÁMINA 05</span><h2>Entregables por etapa</h2>
+      <p>Qué está funcionando al terminar cada fase.</p>
+    </header>
+    <div class="body">
+      <div class="stages">
+        <div class="stage">
+          <span class="when">S1 – S4 · 26/10 → 20/11</span>
+          <h3>MVP</h3>
+          <ul>
+            <li>Login con roles</li>
+            <li>Carga de proyectos, miembros, tarifas y feriados</li>
+            <li>Carga del día con cálculo ordinaria / extra</li>
+            <li>Cierre automático 23:59</li>
+            <li>Vista "Mi mes"</li>
+            <li>Exportación Excel</li>
+          </ul>
+          <p class="out"><b>Al cierre</b>El piloto carga horas reales y podés bajar un Excel con horas por proyecto y por persona.</p>
+        </div>
+        <div class="stage f2">
+          <span class="when">S5 – S7 · 23/11 → 11/12</span>
+          <h3>Gestión</h3>
+          <ul>
+            <li>Aprobación de extras</li>
+            <li>Pedidos de corrección</li>
+            <li>Dashboard: utilización, ranking de proyectos, extras del mes</li>
+            <li>Presupuesto vs. real con alertas 80 / 100 %</li>
+            <li>PDF A4 mensual por proyecto</li>
+            <li>Recordatorio por email a las 18 h</li>
+          </ul>
+          <p class="out"><b>Al cierre</b>Todo el estudio usa el sistema y el manager cierra el mes desde el dashboard.</p>
+        </div>
+        <div class="stage f3">
+          <span class="when">2027 · según prioridades</span>
+          <h3>Evolución</h3>
+          <ul>
+            <li>Fases de proyecto detalladas</li>
+            <li>Horas por m² para comparar proyectos similares</li>
+            <li>Costo vs. honorarios (margen por proyecto)</li>
+            <li>Recordatorio por WhatsApp</li>
+            <li>Integración con facturación</li>
+          </ul>
+          <p class="out"><b>Al cierre</b>Datos para cotizar honorarios con horas reales de proyectos anteriores.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 Decisiones -->
+  <section class="lamina" id="decisiones">
+    <header>
+      <span class="n">LÁMINA 06</span><h2>Decisiones que frenan el cronograma</h2>
+      <p>Hay que responderlas en la semana S0. Cada una bloquea una parte concreta del desarrollo.</p>
+    </header>
+    <div class="body">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Decisión</th><th>Propuesta</th><th>Bloquea</th><th>Impacto</th></tr></thead>
+          <tbody>
+            <tr><td>¿Fases de proyecto desde el MVP?</td><td>Sí, opcionales por proyecto</td><td class="w">S1 · modelo</td><td><span class="pill p-hi">alto</span></td></tr>
+            <tr><td>Tarifa: ¿costo para el estudio o precio de venta?</td><td>Ambas, para ver margen</td><td class="w">S1 · tarifas</td><td><span class="pill p-hi">alto</span></td></tr>
+            <tr><td>Cierre del día</td><td>23:59 + corrección aprobada</td><td class="w">S2 · núcleo</td><td><span class="pill p-hi">alto</span></td></tr>
+            <tr><td>Ordinaria vs. extra</td><td>Automático por jornada diaria</td><td class="w">S2 · núcleo</td><td><span class="pill p-hi">alto</span></td></tr>
+            <tr><td>¿Quién edita las horas contratadas?</td><td>Solo el manager</td><td class="w">S1 · permisos</td><td><span class="pill p-md">medio</span></td></tr>
+            <tr><td>Aprobación de extras</td><td>Después de cargadas</td><td class="w">S5 · flujos</td><td><span class="pill p-md">medio</span></td></tr>
+            <tr><td>Cantidad de usuarios y externos</td><td>A informar</td><td class="w">S1 · hosting</td><td><span class="pill p-lo">bajo</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Time Report · Roadmap v0.1 · 14/10/2026</p>
+</div>
