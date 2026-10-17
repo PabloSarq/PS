@@ -156,9 +156,23 @@ El **costo** de un registro se calcula al momento del informe: `horas × tarifa 
 | Servidor | Local, en una PC de la oficina |
 | Usuarios | Hasta 30 |
 
+**Adoptadas en el MVP (a confirmar)**
+
+| Tema | Cómo quedó |
+|---|---|
+| Extra por cantidad o por horario | **Por cantidad**: lo que excede la jornada diaria en el día es extra. Solo se cargan horas, no horario. |
+| Fases de proyecto | **Sí, opcionales** por proyecto. |
+| Sábado | Extra 100 % (configurable a 50 % con `REGLA_SABADO`). Validar con contador. |
+
 **Pendientes**
 
-1. **Extra por cantidad o por horario.** Por cantidad: lo que pase de *N* horas en el día es extra, y solo se cargan horas. Por horario: lo cargado fuera de, por ejemplo, 9 a 17 h es extra, y hay que cargar hora de inicio y fin. Propuesta: por cantidad.
-2. **Fases de proyecto** en el MVP: ¿sí o no?
-3. **Dominio** del estudio para el acceso desde afuera.
-4. **PC servidor**: marca, modelo y RAM.
+1. **Dominio** del estudio para el acceso desde afuera.
+2. **PC servidor**: marca, modelo y RAM. Recomendado: Ubuntu antes que Windows (ver `docs/INSTALACION.md`).
+
+## 9. Estado
+
+**MVP implementado (17/10/2026).** Ver `README.md` e instalación en `docs/INSTALACION.md`.
+
+Incluye: login y roles, carga del día con cierre 23:59, cálculo automático ordinaria / extra 50 % / extra 100 %, carga del manager en días pasados, "Mi mes" con calendario, ABM de proyectos (fases y equipo), equipo (jornada, horas contratadas por mes, tarifas con vigencia, tope de extras), feriados con recálculo, informes mensuales y semanales con exportación a Excel, auditoría, backup diario, instalación con Docker y túnel de Cloudflare opcional.
+
+Queda para Fase 2: recordatorio por email a las 18 h, PDF mensual por proyecto, dashboard con gráficos, copia cifrada del backup.

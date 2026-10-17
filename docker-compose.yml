@@ -1,0 +1,67 @@
+# Time Report: app + base de datos + backup diario (+ túnel opcional).
+# Uso: copiar .env.example a .env, completar, y correr `docker compose up -d --build`.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: timereport
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en .env}
+      POSTGRES_DB: timereport
+      TZ: America/Argentina/Tucuman
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U timereport"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://timereport:${DB_PASSWORD}@db:5432/timereport
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_NOMBRE: ${ADMIN_NOMBRE:-Manager}
+      NOMBRE_ESTUDIO: ${NOMBRE_ESTUDIO:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      REGLA_SABADO: ${REGLA_SABADO:-extra100}
+    ports:
+      - "${PUERTO:-3000}:3000"
+
+  backup:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGPASSWORD: ${DB_PASSWORD}
+      TZ: America/Argentina/Tucuman
+      HORA_BACKUP: ${HORA_BACKUP:-02}
+      DIAS_RETENCION: ${DIAS_RETENCION:-30}
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup.sh:/backup.sh:ro
+    entrypoint: ["/bin/sh", "/backup.sh"]
+
+  # Acceso desde fuera de la oficina. Se activa con:
+  #   docker compose --profile tunel up -d
+  tunel:
+    image: cloudflare/cloudflared:2026.9.3
+    restart: unless-stopped
+    profiles: ["tunel"]
+    depends_on:
+      - app
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+
+volumes:
+  db_data:
